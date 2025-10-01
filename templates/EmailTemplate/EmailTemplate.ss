@@ -37,14 +37,21 @@
                         <table class="form-entries" width="100%" cellpadding="0" cellspacing="0" role="presentation">
                             <tbody>
                                 <% loop $FormEntries %>
-                                    <tr>
-                                        <th align="left" style="padding:4px 8px; vertical-align: top;">$Label</th>
-                                        <td align="left" style="padding:4px 8px;">$Value</td>
-                                    </tr>
+                                    <% if not $IsFreeText %>
+                                        <tr>
+                                            <th align="left" style="padding:4px 8px; vertical-align: top;">$Label</th>
+                                            <td align="left" style="padding:4px 8px;">$Value</td>
+                                        </tr>
+                                    <% end_if %>
                                 <% end_loop %>
                             </tbody>
                         </table>
                         <br>
+                        <% loop $FormEntries %>
+                            <% if $IsFreeText %>
+                                <p><strong>$Label</strong><br />$ValueHTML.RAW</p>
+                            <% end_if %>
+                        <% end_loop %>
                     <% end_if %>
 
                     $EmailContent.RAW

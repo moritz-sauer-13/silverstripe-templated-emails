@@ -8,6 +8,7 @@ use SilverStripe\Assets\Image;
 use SilverStripe\View\SSViewer;
 use SilverStripe\View\ThemeResourceLoader;
 use SilverStripe\Forms\Form;
+use SilverStripe\Forms\TextareaField;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\View\ArrayData;
 
@@ -311,6 +312,7 @@ class TemplatedEmail extends Email
         // Build label map and order from form if provided
         $labels = [];
         $order = [];
+        $fieldMap = [];
         if ($form) {
             foreach ($form->Fields() as $field) {
                 if (!method_exists($field, 'getName')) {
@@ -321,6 +323,7 @@ class TemplatedEmail extends Email
                     continue;
                 }
                 $order[] = $name;
+                $fieldMap[$name] = $field;
 
                 $label = method_exists($field, 'Title') ? $field->Title() : null;
                 if ((!$label || trim((string)$label) === '') && $usePlaceholder && method_exists($field, 'getAttribute')) {
@@ -411,10 +414,25 @@ class TemplatedEmail extends Email
 
             $label = $labels[$key] ?? $humanize($key);
 
+            $isFreeText = false;
+            $valueHTML = $value;
+            if (isset($fieldMap) && isset($fieldMap[$key])) {
+                $fld = $fieldMap[$key];
+                if ($fld instanceof TextareaField) {
+                    $isFreeText = true;
+                }
+            }
+            if ($isFreeText) {
+                // Convert various newlines to <br> for HTML output
+                $valueHTML = str_replace(array("\r\n", "\r", "\n"), '<br>', $value);
+            }
+
             $entry = [
                 'Key' => $key,
                 'Label' => $label,
                 'Value' => $value,
+                'IsFreeText' => $isFreeText,
+                'ValueHTML' => $valueHTML,
             ];
 
             // Per-entry hook
