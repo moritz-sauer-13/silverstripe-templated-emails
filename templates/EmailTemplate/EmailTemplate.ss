@@ -49,7 +49,7 @@
                         <br>
                         <% loop $FormEntries %>
                             <% if $IsFreeText %>
-                                <p><strong>$Label</strong><br />$ValueHTML.RAW</p>
+                                <p><strong>$Label</strong><br />$Value</p>
                             <% end_if %>
                         <% end_loop %>
                     <% end_if %>
