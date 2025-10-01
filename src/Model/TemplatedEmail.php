@@ -3,6 +3,8 @@
 namespace TemplatedMails\Model;
 
 use SilverStripe\Control\Email\Email;
+use SilverStripe\Dev\Debug;
+use SilverStripe\ORM\FieldType\DBField;
 use SilverStripe\SiteConfig\SiteConfig;
 use SilverStripe\Assets\Image;
 use SilverStripe\View\SSViewer;
@@ -415,7 +417,6 @@ class TemplatedEmail extends Email
             $label = $labels[$key] ?? $humanize($key);
 
             $isFreeText = false;
-            $valueHTML = $value;
             if (isset($fieldMap) && isset($fieldMap[$key])) {
                 $fld = $fieldMap[$key];
                 if ($fld instanceof TextareaField) {
@@ -424,7 +425,8 @@ class TemplatedEmail extends Email
             }
             if ($isFreeText) {
                 // Convert various newlines to <br> for HTML output
-                $valueHTML = str_replace(array("\r\n", "\r", "\n"), '<br>', $value);
+                $value = str_replace("\\r\\n", '<br>', $value);
+                $value = DBField::create_field('HTMLText', $value);
             }
 
             $entry = [
@@ -432,7 +434,6 @@ class TemplatedEmail extends Email
                 'Label' => $label,
                 'Value' => $value,
                 'IsFreeText' => $isFreeText,
-                'ValueHTML' => $valueHTML,
             ];
 
             // Per-entry hook
