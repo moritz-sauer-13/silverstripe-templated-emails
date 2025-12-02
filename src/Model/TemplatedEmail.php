@@ -3,16 +3,13 @@
 namespace TemplatedMails\Model;
 
 use SilverStripe\Control\Email\Email;
-use SilverStripe\Dev\Debug;
+use SilverStripe\Model\ArrayData;
+use SilverStripe\Model\List\ArrayList;
 use SilverStripe\ORM\FieldType\DBField;
 use SilverStripe\SiteConfig\SiteConfig;
 use SilverStripe\Assets\Image;
-use SilverStripe\View\SSViewer;
-use SilverStripe\View\ThemeResourceLoader;
 use SilverStripe\Forms\Form;
 use SilverStripe\Forms\TextareaField;
-use SilverStripe\ORM\ArrayList;
-use SilverStripe\View\ArrayData;
 
 /**
  * TemplatedEmail
@@ -33,19 +30,19 @@ class TemplatedEmail extends Email
      *
      * @var string
      */
-    private static $HTMLTemplate = 'EmailTemplate/EmailTemplate';
+    private static string $HTMLTemplate = 'EmailTemplate/EmailTemplate';
 
     /**
      * Configuration: Skip empty values (can be overridden via YAML config)
      * @var bool
      */
-    private static $skip_empty = true;
+    private static bool $skip_empty = true;
 
     /**
      * Configuration: Exact keys to exclude from output
      * @var array
      */
-    private static $excludes = [
+    private static array $excludes = [
         'SecurityID',
         'url',
         'g-recaptcha-response'
@@ -55,7 +52,7 @@ class TemplatedEmail extends Email
      * Configuration: Key prefixes to exclude from output
      * @var array
      */
-    private static $exclude_prefixes = [
+    private static array $exclude_prefixes = [
         'action_'
     ];
 
@@ -63,19 +60,19 @@ class TemplatedEmail extends Email
      * Configuration: Separator for array values
      * @var string
      */
-    private static $array_separator = ', ';
+    private static string $array_separator = ', ';
 
     /**
      * Configuration: Use placeholder as label if Title is empty
      * @var bool
      */
-    private static $label_from_placeholder = true;
+    private static bool $label_from_placeholder = true;
 
     /**
      * Configuration: Remove trailing required-asterisk (*) from labels/placeholders
      * @var bool
      */
-    private static $strip_required_asterisk = true;
+    private static bool $strip_required_asterisk = true;
 
 
     /**
@@ -83,63 +80,63 @@ class TemplatedEmail extends Email
      *
      * @var Image|null
      */
-    protected $logo = null;
+    protected ?Image $logo = null;
 
     /**
      * Greeting text
      *
      * @var string|null
      */
-    protected $greeting = null;
+    protected ?string $greeting = null;
 
     /**
      * Title of the email
      *
      * @var string|null
      */
-    protected $title = null;
+    protected ?string $title = null;
 
     /**
      * Email content
      *
      * @var string|null
      */
-    protected $emailContent = null;
+    protected ?string $emailContent = null;
 
     /**
      * Call to action button text
      *
      * @var string|null
      */
-    protected $callToAction = null;
+    protected ?string $callToAction = null;
 
     /**
      * Call to action button link
      *
      * @var string|null
      */
-    protected $callToActionLink = null;
+    protected ?string $callToActionLink = null;
 
     /**
      * Signature text
      *
      * @var string|null
      */
-    protected $signature = null;
+    protected ?string $signature = null;
 
     /**
      * Footer content
      *
      * @var string|null
      */
-    protected $footerContent = null;
+    protected ?string $footerContent = null;
 
     /**
      * Normalized form entries for template rendering
      *
      * @var ArrayList|null
      */
-    protected $formEntries = null;
+    protected ?ArrayList $formEntries = null;
 
     /**
      * Constructor
@@ -167,36 +164,30 @@ class TemplatedEmail extends Email
      * Set the logo to use in the email header
      *
      * @param Image $logo
-     * @return $this
      */
-    public function setLogo(Image $logo)
+    public function setLogo(Image $logo): void
     {
         $this->logo = $logo;
-        return $this;
     }
 
     /**
      * Set the greeting text
      *
      * @param string $greeting
-     * @return $this
      */
-    public function setGreeting($greeting)
+    public function setGreeting($greeting): void
     {
         $this->greeting = $greeting;
-        return $this;
     }
 
     /**
      * Set the title of the email
      *
      * @param string $title
-     * @return $this
      */
-    public function setTitle($title)
+    public function setTitle($title): void
     {
         $this->title = $title;
-        return $this;
     }
 
     /**
@@ -204,37 +195,31 @@ class TemplatedEmail extends Email
      *
      * @param string $text
      * @param string $link
-     * @return $this
      */
-    public function setCallToAction($text, $link)
+    public function setCallToAction($text, $link): void
     {
         $this->callToAction = $text;
         $this->callToActionLink = $link;
-        return $this;
     }
 
     /**
      * Set the signature text
      *
      * @param string $signature
-     * @return $this
      */
-    public function setSignature($signature)
+    public function setSignature($signature): void
     {
         $this->signature = $signature;
-        return $this;
     }
 
     /**
      * Set the footer content
      *
      * @param string $content
-     * @return $this
      */
-    public function setFooterContent($content)
+    public function setFooterContent($content): void
     {
         $this->footerContent = $content;
-        return $this;
     }
 
     /**
@@ -258,12 +243,10 @@ class TemplatedEmail extends Email
      * Set the template to use for this email
      *
      * @param string $template
-     * @return $this
      */
-    public function setTemplate($template)
+    public function setTemplate($template): void
     {
         $this->setHTMLTemplate($template);
-        return $this;
     }
 
     /**

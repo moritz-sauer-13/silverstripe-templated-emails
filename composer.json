@@ -1,14 +1,14 @@
 {
-  "name":"moritz-sauer-13/silverstripe-templated-emails",
+  "name": "moritz-sauer-13/silverstripe-templated-emails",
   "description": "Adds an easy way to create email templates in SilverStripe",
   "authors": [
     {
-      "name":"Moritz Sauer",
+      "name": "Moritz Sauer",
       "email": "ms@tietge.com"
     }
   ],
-  "require":{
-    "silverstripe/recipe-cms": "^5"
+  "require": {
+    "silverstripe/recipe-cms": "^6"
   },
   "autoload": {
     "psr-4": {
